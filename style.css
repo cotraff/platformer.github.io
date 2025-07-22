@@ -1,0 +1,262 @@
+* {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* задаём переменные */
+:root {
+  --left: 20px;
+  --player-size: 50px;
+  --player-top: 400px;
+  --offset: 16px;
+}
+
+/*задаём начальные характеристики внешним элементам*/
+body {
+  height: 100vh;
+  background: #1f1f1f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  position: relative;
+  width: 800px;
+  height: 500px;
+  background: #48d8fc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/*анимация, появляющаяся после касания правой границы*/
+.blur {
+  animation: blur 5s ease;
+  filter: blur(25px);
+}
+@keyframes blur {
+  0% {
+    filter: blur(0);
+  } 100% {
+    filter: blur(25px);
+  }
+}
+
+/*описываем положение и внешний вид структур*/
+.structurs > div {
+  position: absolute;
+}
+
+.ground {
+  height: 50px;
+  width: 800px;
+  background: #0b891c;
+  top: 450px;
+  left: 0;
+}
+
+.platform {
+  height: 20px;
+  background: #b15e00;
+  border-radius: 7px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.7);
+}
+
+#platform1 {
+  width: calc(200px + var(--offset)*2);
+  top: 360px;
+  left: calc(200px - var(--offset));
+}
+
+#platform2 {
+  width: calc(150px + var(--offset)*2);
+  top: 270px;
+  left: calc(350px - var(--offset));
+}
+
+#platform3 {
+  width: calc(100px + var(--offset)*2);
+  top: 180px;
+  left: calc(470px - var(--offset));
+}
+
+#platform4 {
+  width: calc(170px + var(--offset)*2);
+  top: 90px;
+  left: calc(600px - var(--offset));
+  z-index: 1;
+}
+
+.door {
+  width: 110px;
+  height: 200px;
+  top: 250px;
+  left: 702px;
+  background-image: url('door.png');
+  background-size: cover;
+  background-position: center;
+  box-shadow: 5px 2px 5px rgba(0, 0, 0, 0.8);
+}
+
+.lever {
+  position: relative;
+  width: 30px;
+  height: 100px;
+  top: 40px;
+  left: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(-45deg);
+  filter: drop-shadow(4px 3px 3px rgba(0, 0, 0, 0.7));
+}
+
+.base {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: #7a7a7a;
+  border-radius: 15px;
+}
+
+.stick {
+  width: 6px;
+  height: 40px;
+  background: #df852b;
+  margin-bottom: 60px;
+  border-radius: 2px;
+}
+
+/*анимация при взаимодействии с рычагом*/
+.moved {
+  animation: moved 1s ease;
+  transform: rotate(45deg);
+}
+@keyframes moved {
+  0% {transform: rotate(-45deg);} 100% {
+    transform: rotate(45deg);}
+}
+
+/*задаём стили камню и анимацию его падения*/
+.stone {
+  position: absolute;
+  left: 625px;
+  top: -100px;
+  width: 100px;
+  height: 100px;
+  background: #4d4d4d;
+  border-radius: 50px;
+  box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.9);
+  z-index: 1;
+}
+.falling {
+  animation: falling 1s ease-in;
+  top: 300px;
+}
+.tudi {
+  animation: tudi 0.5s ease;
+  top: 500px;
+  left: 800px;
+}
+@keyframes falling {
+  0% {top: -100px;} 100% {
+    top: 300px;}
+}
+@keyframes tudi {
+  0% {
+    top: 300px;
+    left: 625px;
+  } 100% {
+    top: 500px;
+    left: 800px;
+  }
+}
+
+/*задаём стили того, чем пользователь будет управлять*/
+.player {
+  position: absolute;
+  width: var(--player-size);
+  height: var(--player-size);
+  background-image: url('player.jpg');
+  background-size: cover;
+  background-position: center;
+  background-color: #097fe7;
+  top: var(--player-top);
+  left: var(--left);
+  border-radius: 25px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+  transform: rotate(0deg);
+  z-index: 1;
+}
+
+/*задаём анимации прыжка и падения*/
+.jump {
+  animation: jump 0.5s ease-in-out;
+  top: var(--player-top);
+}
+.jumpPlat {
+  animation: jumpPlat 0.5s ease-in-out;
+  top: calc(var(--player-top) - 90px)
+}
+@keyframes jump {
+  0% {top: var(--player-top);} 50% {
+    top: calc(var(--player-top) - 100px);
+    width: 44px;
+    left: calc(var(--left) + 3px);
+  } 100% {top: var(--player-top);}
+}
+@keyframes jumpPlat {
+  0% {top: var(--player-top);} 50% {
+    top: calc(var(--player-top) - 100px);
+    width: 44px;
+    left: calc(var(--left) + 3px);
+  } 100% {top: calc(var(--player-top) - 90px);}
+}
+
+.fall {
+  animation: fall 0.3s ease-in;
+}
+.falls {
+  animation: falls 0.5s ease-in;
+}
+@keyframes fall {
+  0% {top: var(--player-top);} 100% {
+    top: calc(var(--player-top) + 90px);}
+}
+@keyframes falls {
+  0% {top: var(--player-top);} 100% {
+    top: 400px;}
+}
+
+/*задаём стили врагу и его анимацию при падении камня*/
+.enemy {
+  position: absolute;
+  height: 100px;
+  width: 80px;
+  background-image: url('enemy.png');
+  background-size: cover;
+  background-position: center;
+  top: 350px;
+  left: 640px;
+  filter: drop-shadow(5px 3px 15px rgba(0, 0, 0, 0.8));
+  z-index: 1;
+}
+.sudi {
+  animation: sudi 0.5s ease;
+  top: 470px;
+  left: 550px;
+  transform: rotate(-480deg);
+}
+@keyframes sudi {
+  0% {
+    top: 400px;
+    left: 650px;
+    transform: rotate(0deg);
+  } 100% {
+    top: 470px;
+    left: 550px;
+    transform: rotate(-480deg);
+  }
+}
